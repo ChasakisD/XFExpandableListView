@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XFExpandableListViewSample.Views.ExpandableListViewPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:abstractions="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+    xmlns:cells="clr-namespace:XFExpandableListView.Cells;assembly=XFExpandableListView"
+    xmlns:controls="clr-namespace:XFExpandableListView.Controls;assembly=XFExpandableListView"
+    xmlns:viewModels="clr-namespace:XFExpandableListViewSample.ViewModels;assembly=XFExpandableListViewSample"
+    x:Name="This">
+    <ContentPage.BindingContext>
+        <viewModels:ExpandableListViewPageViewModel />
+    </ContentPage.BindingContext>
+    <StackLayout>
+        <controls:ExpandableListView
+            AllGroups="{Binding AnimalAllGroupsCollection}"
+            GroupDisplayBinding="{Binding Title}"
+            GroupShortNameBinding="{Binding ShortName}"
+            HasUnevenRows="True"
+            SeparatorVisibility="None">
+            <controls:ExpandableListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Padding="8">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <abstractions:CircleImage
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="0"
+                                Aspect="AspectFill"
+                                BorderColor="Transparent"
+                                HeightRequest="80"
+                                Source="{Binding ImageUrl}"
+                                VerticalOptions="Center"
+                                WidthRequest="80" />
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                FontSize="16"
+                                Text="{Binding Name}"
+                                TextColor="#005569"
+                                VerticalTextAlignment="Center" />
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                FontSize="16"
+                                Text="{Binding Description}"
+                                TextColor="#005569"
+                                VerticalTextAlignment="Center" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </controls:ExpandableListView.ItemTemplate>
+            <controls:ExpandableListView.GroupHeaderTemplate>
+                <DataTemplate>
+                    <cells:ExpandableGroupCell CellCommand="{Binding Source={x:Reference This}, Path=BindingContext.ToggleCommand}" CellCommandParameter="{x:Reference IconLabel}">
+                        <StackLayout
+                            Padding="16,8"
+                            Orientation="Horizontal"
+                            Spacing="8">
+                            <Label
+                                x:Name="IconLabel"
+                                FontSize="36"
+                                Text="&#xe316;"
+                                TextColor="DarkGray"
+                                VerticalTextAlignment="Center">
+                                <Label.FontFamily>
+                                    <OnPlatform x:TypeArguments="x:String">
+                                        <On Platform="Android" Value="MaterialIcons-Regular.ttf#MaterialIcons-Regular" />
+                                    </OnPlatform>
+                                </Label.FontFamily>
+                            </Label>
+                            <Label
+                                FontSize="20"
+                                Text="{Binding Title}"
+                                TextColor="Gray"
+                                VerticalTextAlignment="Center" />
+                        </StackLayout>
+                    </cells:ExpandableGroupCell>
+                </DataTemplate>
+            </controls:ExpandableListView.GroupHeaderTemplate>
+        </controls:ExpandableListView>
+    </StackLayout>
+
+</ContentPage>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
