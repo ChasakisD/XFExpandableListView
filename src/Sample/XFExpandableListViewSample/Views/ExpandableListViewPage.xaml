@@ -62,7 +62,7 @@
                 <DataTemplate>
                     <cells:ExpandableGroupCell CellCommand="{Binding Source={x:Reference This}, Path=BindingContext.ToggleCommand}" CellCommandParameter="{x:Reference IconLabel}">
                         <StackLayout
-                            Padding="16,8"
+                            Padding="16"
                             Orientation="Horizontal"
                             Spacing="8">
                             <Label
@@ -78,7 +78,7 @@
                                 </Label.FontFamily>
                             </Label>
                             <Label
-                                FontSize="20"
+                                FontSize="24"
                                 Text="{Binding Title}"
                                 TextColor="Gray"
                                 VerticalTextAlignment="Center" />

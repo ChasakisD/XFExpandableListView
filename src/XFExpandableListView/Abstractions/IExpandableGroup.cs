@@ -10,9 +10,20 @@ namespace XFExpandableListView.Abstractions
     /// </summary>
     public interface IExpandableGroup : IList, INotifyCollectionChanged
     {
+        /// <summary>
+        /// The Unique Identifier of the List
+        /// </summary>
         Guid Id { get; set; }
+
+        /// <summary>
+        /// Property that indicates if the group is expanded
+        /// </summary>
         bool IsExpanded { get; set; }
 
+        /// <summary>
+        /// Copy Method
+        /// </summary>
+        /// <returns>The copied instance</returns>
         IExpandableGroup NewInstance();
     }
 }

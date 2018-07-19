@@ -5,6 +5,11 @@ using XFExpandableListView.Abstractions;
 
 namespace XFExpandableListView.Models
 {
+    /// <inheritdoc cref="ObservableCollection{T}" />
+    /// <summary>
+    /// Base Class for the Group Model
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class ExpandableGroup<T> : ObservableCollection<T>, IExpandableGroup
     {
         private bool _isExpanded;
