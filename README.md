@@ -1,12 +1,12 @@
 # XFExpandableListView
 An Implementation of Expandable ListView Control in Xamarin.Forms.
 
-# Documentation
+[![NuGet version](https://badge.fury.io/nu/XFExpandableListView.svg)](https://badge.fury.io/nu/XFExpandableListView.svg)
 
+# Documentation
 ![Alt Text](https://media.giphy.com/media/1AfbEInjrtTcmVepOM/giphy.gif)
 
 # TODOs
--Add Nuget Support  
 -Add Documentation and usage
 
 ## Notes
