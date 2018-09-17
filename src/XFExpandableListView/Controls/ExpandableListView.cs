@@ -110,19 +110,6 @@ namespace XFExpandableListView.Controls
                     itemsSource.Add(item.NewInstance());
                 }
 
-                // Expand items (iOS fix)
-                //for (var i = 0; i < items.Count; i++)
-                //{
-                //    var group = (IExpandableGroup)items[i];
-                //    var itemsSourceGroup = (IExpandableGroup)itemsSource[i];
-                //    if (!group.IsExpanded) continue;
-
-                //    foreach (var item in group)
-                //    {
-                //        itemsSourceGroup.Add(item);
-                //    }
-                //}
-
                 control.ItemsSource = itemsSource;
             });
 
@@ -304,9 +291,10 @@ namespace XFExpandableListView.Controls
                         itemsSourceGroup.Add(item);
                     }
                 }
-
+            }).ContinueWith((task) =>
+            {
                 ItemsSource = updatedItemsSource;
-            });
+            }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         #endregion
