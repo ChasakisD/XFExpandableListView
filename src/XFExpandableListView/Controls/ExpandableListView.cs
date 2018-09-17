@@ -88,7 +88,7 @@ namespace XFExpandableListView.Controls
 
         #region [Property Changed]
 
-        private static async void AllGroupsChanged(BindableObject bindable, object oldValue, object newValue)
+        static async void AllGroupsChanged(BindableObject bindable, object oldValue, object newValue)
         {
             if (!(bindable is ExpandableListView control)) return;
 
@@ -104,12 +104,26 @@ namespace XFExpandableListView.Controls
             /* Copy the groups to the ItemsSource */
             await Task.Run(() =>
             {
-                var itemsCopy = new ObservableCollection<IExpandableGroup>();
+                var itemsSource = new ObservableCollection<IExpandableGroup>();
                 foreach (IExpandableGroup item in items)
                 {
-                    itemsCopy.Add(item.NewInstance());
+                    itemsSource.Add(item.NewInstance());
                 }
-                control.ItemsSource = itemsCopy;
+
+                // Expand items (iOS fix)
+                //for (var i = 0; i < items.Count; i++)
+                //{
+                //    var group = (IExpandableGroup)items[i];
+                //    var itemsSourceGroup = (IExpandableGroup)itemsSource[i];
+                //    if (!group.IsExpanded) continue;
+
+                //    foreach (var item in group)
+                //    {
+                //        itemsSourceGroup.Add(item);
+                //    }
+                //}
+
+                control.ItemsSource = itemsSource;
             });
 
             /* Subscribe to CollectionChanged Event to Update the ItemsSource with any AllGroups updates */
@@ -119,7 +133,7 @@ namespace XFExpandableListView.Controls
             await control.UpdateExpandedItems();
         }
 
-        private void GroupsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        void GroupsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (!(ItemsSource is IList<IExpandableGroup> localItemsSource)) return;
 
@@ -266,9 +280,15 @@ namespace XFExpandableListView.Controls
 
         #region [Helpers]
 
-        private async Task UpdateExpandedItems()
+        async Task UpdateExpandedItems()
         {
             if (!(ItemsSource is IList groups)) return;
+
+            var updatedItemsSource = new ObservableCollection<IExpandableGroup>();
+            foreach (IExpandableGroup group in groups)
+            {
+                updatedItemsSource.Add(group.NewInstance());
+            }
 
             /* Hard operations must not affect the UI Thread */
             await Task.Run(() =>
@@ -276,7 +296,7 @@ namespace XFExpandableListView.Controls
                 for (var i = 0; i < AllGroups.Count; i++)
                 {
                     var group = (IExpandableGroup)AllGroups[i];
-                    var itemsSourceGroup = (IExpandableGroup)groups[i];
+                    var itemsSourceGroup = (IExpandableGroup)updatedItemsSource[i];
                     if (!group.IsExpanded) continue;
 
                     foreach (var item in group)
@@ -284,6 +304,8 @@ namespace XFExpandableListView.Controls
                         itemsSourceGroup.Add(item);
                     }
                 }
+
+                ItemsSource = updatedItemsSource;
             });
         }
 
