@@ -293,8 +293,11 @@ namespace XFExpandableListView.Controls
                 }
             }).ContinueWith((task) =>
             {
-                ItemsSource = updatedItemsSource;
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    ItemsSource = updatedItemsSource;
+                });
+            });
         }
 
         #endregion
