@@ -291,15 +291,14 @@ namespace XFExpandableListView.Controls
                         itemsSourceGroup.Add(item);
                     }
                 }
-            }).ContinueWith((task) =>
-            {
+
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     ItemsSource = updatedItemsSource;
                 });
             });
-        }
 
-        #endregion
+            #endregion
+        }
     }
 }
