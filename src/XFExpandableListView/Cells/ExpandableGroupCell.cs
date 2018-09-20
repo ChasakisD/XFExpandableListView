@@ -61,12 +61,17 @@ namespace XFExpandableListView.Cells
             }
 
             if (!(child is View view)) return;
-
+            
             _holderAdded = true;
 
-            var holder = new Grid();
-            holder.Children.Add(view);
-            holder.GestureRecognizers.Add(
+   //         var holder = new Grid();
+			//holder.HorizontalOptions = new LayoutOptions(LayoutAlignment.Fill, true);
+			//holder.VerticalOptions = new LayoutOptions(LayoutAlignment.Fill, true);
+			//holder.ColumnSpacing = 0;
+			//holder.RowSpacing = 0;
+			//holder.Children.Add(view);
+			//holder.BackgroundColor = Color.Black;
+			View.GestureRecognizers.Add(
                 new TapGestureRecognizer
                 {
                     Command = new Command(async () =>
@@ -115,7 +120,7 @@ namespace XFExpandableListView.Cells
                 }
             );
 
-            View = holder;
+            //View = holder;
         }
     }
 }
