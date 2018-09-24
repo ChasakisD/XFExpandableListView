@@ -110,22 +110,7 @@ namespace XFExpandableListView.Controls
                     itemsSource.Add(item.NewInstance());
                 }
 
-				//Expand items(iOS fix)
-				//for (var i = 0; i < items.Count; i++)
-				//{
-				//    var group = (IExpandableGroup)items[i];
-				//    var itemsSourceGroup = (IExpandableGroup)itemsSource[i];
-				//    if (!group.IsExpanded) continue;
-				//    foreach (var item in group)
-				//    {
-				//        itemsSourceGroup.Add(item);
-				//    }
-				//}
-
-				Device.BeginInvokeOnMainThread(() =>
-				{
-					control.ItemsSource = itemsSource;
-				});
+                Device.BeginInvokeOnMainThread(() => { control.ItemsSource = itemsSource; });
             });
 
             /* Subscribe to CollectionChanged Event to Update the ItemsSource with any AllGroups updates */

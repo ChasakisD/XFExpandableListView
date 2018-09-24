@@ -64,63 +64,52 @@ namespace XFExpandableListView.Cells
             
             _holderAdded = true;
 
-   //         var holder = new Grid();
-			//holder.HorizontalOptions = new LayoutOptions(LayoutAlignment.Fill, true);
-			//holder.VerticalOptions = new LayoutOptions(LayoutAlignment.Fill, true);
-			//holder.ColumnSpacing = 0;
-			//holder.RowSpacing = 0;
-			//holder.Children.Add(view);
-			//holder.BackgroundColor = Color.Black;
-			View.GestureRecognizers.Add(
-                new TapGestureRecognizer
+			View.GestureRecognizers.Add(new TapGestureRecognizer
+            {
+                Command = new Command(async () =>
                 {
-                    Command = new Command(async () =>
+                    #region [Toggle Group]
+
+                    /* If is collapsing enabled, then collapse/expand the group */
+                    if (ExpandableController.IsCollapsingEnabled)
                     {
-                        #region [Toggle Group]
+                        await ExpandableController.ToggleGroup(GroupController);
+                    }
 
-                        /* If is collapsing enabled, then collapse/expand the group */
-                        if (ExpandableController.IsCollapsingEnabled)
-                        {
-                            await ExpandableController.ToggleGroup(GroupController);
-                        }
+                    #endregion
 
-                        #endregion
+                    #region [Execute Cell Command]
 
-                        #region [Execute Cell Command]
+                    /* Execute the cell command */
+                    if (CellCommand == null) return;
 
-                        /* Execute the cell command */
-                        if (CellCommand == null) return;
+                    /* Pass the Cell Command Parameter if it is not null, otherwise pass the group */
+                    var cellParameter = CellCommandParameter ?? GroupController;
+                    if (!CellCommand.CanExecute(cellParameter)) return;
+                    CellCommand.Execute(cellParameter);
 
-                        /* Pass the Cell Command Parameter if it is not null, otherwise pass the group */
-                        var cellParameter = CellCommandParameter ?? GroupController;
-                        if (!CellCommand.CanExecute(cellParameter)) return;
-                        CellCommand.Execute(cellParameter);
+                    #endregion
 
-                        #endregion
+                    #region [Execute ListView Command]
 
-                        #region [Execute ListView Command]
+                    /* Execute the group header command */
+                    if (ExpandableController.GroupHeaderCommand == null) return;
 
-                        /* Execute the group header command */
-                        if (ExpandableController.GroupHeaderCommand == null) return;
+                    /* Pass the GroupHeader Command Parameter if it is not null, otherwise pass the group */
+                    var parameter = ExpandableController.GroupHeaderCommandParameter ?? GroupController;
+                    if (!ExpandableController.GroupHeaderCommand.CanExecute(parameter)) return;
+                    ExpandableController.GroupHeaderCommand.Execute(parameter);
 
-                        /* Pass the GroupHeader Command Parameter if it is not null, otherwise pass the group */
-                        var parameter = ExpandableController.GroupHeaderCommandParameter ?? GroupController;
-                        if (!ExpandableController.GroupHeaderCommand.CanExecute(parameter)) return;
-                        ExpandableController.GroupHeaderCommand.Execute(parameter);
+                    #endregion
 
-                        #endregion
+                    #region [Invoke Event]
 
-                        #region [Invoke Event]
+                    /* Invoke the Group Clicked Event */
+                    ExpandableController.OnGroupClicked(GroupController);
 
-                        /* Invoke the Group Clicked Event */
-                        ExpandableController.OnGroupClicked(GroupController);
-
-                        #endregion
-                    })
-                }
-            );
-
-            //View = holder;
+                    #endregion
+                })
+            });
         }
     }
 }
