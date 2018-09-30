@@ -85,15 +85,22 @@ namespace XFExpandableListView.Cells
 
                     /* Pass the Cell Command Parameter if it is not null, otherwise pass the group */
                     var cellParameter = CellCommandParameter ?? GroupController;
-                    if (!CellCommand.CanExecute(cellParameter)) return;
-                    CellCommand.Execute(cellParameter);
+                    if (CellCommand != null && CellCommand.CanExecute(cellParameter))
+                    {
+                        CellCommand.Execute(cellParameter);
+                    }
 
                     #endregion
 
                     #region [Execute ListView Command]
 
                     /* Execute the group header command */
-                    if (ExpandableController.GroupHeaderCommand == null) return;
+                    /* Pass the GroupHeader Command Parameter if it is not null, otherwise pass the group */
+                    var parameter = ExpandableController.GroupHeaderCommandParameter ?? GroupController;
+                    if (ExpandableController.GroupHeaderCommand != null && ExpandableController.GroupHeaderCommand.CanExecute(cellParameter))
+                    {
+                        ExpandableController.GroupHeaderCommand.Execute(parameter);
+                    }
 
                     /* Pass the GroupHeader Command Parameter if it is not null, otherwise pass the group */
                     var parameter = ExpandableController.GroupHeaderCommandParameter ?? GroupController;

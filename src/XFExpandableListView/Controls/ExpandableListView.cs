@@ -79,7 +79,7 @@ namespace XFExpandableListView.Controls
         #endregion
 
         /// <summary>
-        /// Default Contructor
+        /// Default Constructor
         /// </summary>
         public ExpandableListView()
         {
