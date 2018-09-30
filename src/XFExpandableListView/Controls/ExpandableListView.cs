@@ -177,7 +177,7 @@ namespace XFExpandableListView.Controls
 
         #region [Expandable Controller Implementation]
 
-        public void OnGroupClicked(IExpandableGroup group) => 
+        public void OnGroupClicked(IExpandableGroup group) =>
             GroupClicked?.Invoke(this, new ExpandableGroupEventArgs(group));
 
         public virtual async Task ToggleGroup(IExpandableGroup group)
@@ -186,7 +186,7 @@ namespace XFExpandableListView.Controls
 
             await ToggleGroup(allGroupIndex);
         }
-        
+
         public virtual async Task ToggleGroup(int position)
         {
             if (position < 0 || position > AllGroups.Count) return;
@@ -195,7 +195,7 @@ namespace XFExpandableListView.Controls
             if (expandableGroup.IsExpanded) await Collapse(position);
             else await Expand(position);
         }
-        
+
         public virtual async Task Expand(int position)
         {
             if (AllGroups.Count < position) return;
@@ -221,7 +221,7 @@ namespace XFExpandableListView.Controls
             /* Invoke Expanded the Event */
             GroupExpanded?.Invoke(this, new ExpandableGroupEventArgs(expandableGroup));
         }
-        
+
         public virtual async Task Collapse(int position)
         {
             if (AllGroups.Count < position) return;
@@ -247,7 +247,7 @@ namespace XFExpandableListView.Controls
             /* Invoke Collapsed the Event */
             GroupCollapsed?.Invoke(this, new ExpandableGroupEventArgs(expandableGroup));
         }
-        
+
         public virtual async Task<IExpandableGroup> GetAllGroupById(Guid id)
         {
             /* Hard operations must not affect the UI Thread */
@@ -256,7 +256,7 @@ namespace XFExpandableListView.Controls
                 return AllGroups.Cast<IExpandableGroup>().FirstOrDefault(x => x.Id == id);
             });
         }
-        
+
         public virtual async Task<int> GetAllGroupPositionById(Guid id)
         {
             /* Hard operations must not affect the UI Thread */

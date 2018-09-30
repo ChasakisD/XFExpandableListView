@@ -61,10 +61,10 @@ namespace XFExpandableListView.Cells
             }
 
             if (!(child is View view)) return;
-            
+
             _holderAdded = true;
 
-			View.GestureRecognizers.Add(new TapGestureRecognizer
+            View.GestureRecognizers.Add(new TapGestureRecognizer
             {
                 Command = new Command(async () =>
                 {
@@ -90,11 +90,15 @@ namespace XFExpandableListView.Cells
                         CellCommand.Execute(cellParameter);
                     }
 
+
                     #endregion
 
                     #region [Execute ListView Command]
 
                     /* Execute the group header command */
+                    if (ExpandableController.GroupHeaderCommand == null) return;
+
+
                     /* Pass the GroupHeader Command Parameter if it is not null, otherwise pass the group */
                     var parameter = ExpandableController.GroupHeaderCommandParameter ?? GroupController;
                     if (ExpandableController.GroupHeaderCommand != null && ExpandableController.GroupHeaderCommand.CanExecute(cellParameter))
@@ -102,10 +106,6 @@ namespace XFExpandableListView.Cells
                         ExpandableController.GroupHeaderCommand.Execute(parameter);
                     }
 
-                    /* Pass the GroupHeader Command Parameter if it is not null, otherwise pass the group */
-                    var parameter = ExpandableController.GroupHeaderCommandParameter ?? GroupController;
-                    if (!ExpandableController.GroupHeaderCommand.CanExecute(parameter)) return;
-                    ExpandableController.GroupHeaderCommand.Execute(parameter);
 
                     #endregion
 
