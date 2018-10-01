@@ -64,58 +64,50 @@ namespace XFExpandableListView.Cells
 
             _holderAdded = true;
 
-            var holder = new Grid();
-            holder.Children.Add(view);
-            holder.GestureRecognizers.Add(
-                new TapGestureRecognizer
+            View.GestureRecognizers.Add(new TapGestureRecognizer
+            {
+                Command = new Command(async () =>
                 {
-                    Command = new Command(async () =>
+                    #region [Toggle Group]
+
+                    /* If is collapsing enabled, then collapse/expand the group */
+                    if (ExpandableController.IsCollapsingEnabled)
                     {
-                        #region [Toggle Group]
+                        await ExpandableController.ToggleGroup(GroupController);
+                    }
 
-                        /* If is collapsing enabled, then collapse/expand the group */
-                        if (ExpandableController.IsCollapsingEnabled)
-                        {
-                            await ExpandableController.ToggleGroup(GroupController);
-                        }
+                    #endregion
 
-                        #endregion
+                    #region [Execute Cell Command]
 
-                        #region [Execute Cell Command]
+                    /* Pass the Cell Command Parameter if it is not null, otherwise pass the group */
+                    var cellParameter = CellCommandParameter ?? GroupController;
+                    if (CellCommand != null && CellCommand.CanExecute(cellParameter))
+                    {
+                        CellCommand.Execute(cellParameter);
+                    }
 
-                        /* Execute the cell command */
-                        /* Pass the Cell Command Parameter if it is not null, otherwise pass the group */
-                        var cellParameter = CellCommandParameter ?? GroupController;
-                        if (CellCommand != null && CellCommand.CanExecute(cellParameter))
-                        {
-                            CellCommand.Execute(cellParameter);
-                        }
+                    #endregion
 
-                        #endregion
+                    #region [Execute ListView Command]
 
-                        #region [Execute ListView Command]
+                    /* Pass the GroupHeader Command Parameter if it is not null, otherwise pass the group */
+                    var parameter = ExpandableController.GroupHeaderCommandParameter ?? GroupController;
+                    if (ExpandableController.GroupHeaderCommand != null && ExpandableController.GroupHeaderCommand.CanExecute(cellParameter))
+                    {
+                        ExpandableController.GroupHeaderCommand.Execute(parameter);
+                    }
 
-                        /* Execute the group header command */
-                        /* Pass the GroupHeader Command Parameter if it is not null, otherwise pass the group */
-                        var parameter = ExpandableController.GroupHeaderCommandParameter ?? GroupController;
-                        if (ExpandableController.GroupHeaderCommand != null && ExpandableController.GroupHeaderCommand.CanExecute(cellParameter))
-                        {
-                            ExpandableController.GroupHeaderCommand.Execute(parameter);
-                        }
+                    #endregion
 
-                        #endregion
+                    #region [Invoke Event]
 
-                        #region [Invoke Event]
+                    /* Invoke the Group Clicked Event */
+                    ExpandableController.OnGroupClicked(GroupController);
 
-                        /* Invoke the Group Clicked Event */
-                        ExpandableController.OnGroupClicked(GroupController);
-
-                        #endregion
-                    })
-                }
-            );
-
-            View = holder;
+                    #endregion
+                })
+            });
         }
     }
 }

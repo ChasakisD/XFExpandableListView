@@ -37,7 +37,7 @@ namespace XFExpandableListView.Abstractions
         #endregion
 
         #region [Control Methods]
-        
+
         /// <summary>
         /// The method that will expand the group in the specified
         /// position if it is already collapsed. Ensure that you are
@@ -45,7 +45,7 @@ namespace XFExpandableListView.Abstractions
         /// </summary>
         /// <param name="position">The position of the group</param>
         /// <returns></returns>
-        Task Expand(int position);
+        void Expand(int position);
 
         /// <summary>
         /// The method that will collapse the group in the specified
@@ -54,7 +54,7 @@ namespace XFExpandableListView.Abstractions
         /// </summary>
         /// <param name="position">The position of the group</param>
         /// <returns></returns>
-        Task Collapse(int position);
+        void Collapse(int position);
 
         /// <summary>
         /// The method that Collapses/Expands the group in the specified position
@@ -63,7 +63,7 @@ namespace XFExpandableListView.Abstractions
         /// </summary>
         /// <param name="position">The position of the group</param>
         /// <returns></returns>
-        Task ToggleGroup(int position);
+        void ToggleGroup(int position);
 
         /// <summary>
         /// The method that Collapses/Expands the selected group
