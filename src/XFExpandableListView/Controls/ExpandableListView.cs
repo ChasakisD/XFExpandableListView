@@ -184,19 +184,19 @@ namespace XFExpandableListView.Controls
         {
             var allGroupIndex = await GetAllGroupPositionById(group.Id);
 
-            await ToggleGroup(allGroupIndex);
+            ToggleGroup(allGroupIndex);
         }
 
-        public virtual async Task ToggleGroup(int position)
+        public virtual void ToggleGroup(int position)
         {
             if (position < 0 || position > AllGroups.Count) return;
             if (!(AllGroups[position] is IExpandableGroup expandableGroup)) return;
 
-            if (expandableGroup.IsExpanded) await Collapse(position);
-            else await Expand(position);
+            if (expandableGroup.IsExpanded) Collapse(position);
+            else Expand(position);
         }
 
-        public virtual async Task Expand(int position)
+        public virtual void Expand(int position)
         {
             if (AllGroups.Count < position) return;
             if (!(AllGroups[position] is IExpandableGroup expandableGroup)) return;
@@ -206,23 +206,17 @@ namespace XFExpandableListView.Controls
 
             expandableGroup.IsExpanded = true;
 
-            /* Hard operations must not affect the UI Thread */
-            await Task.Run(() =>
+            /* It's important to do this in main thread */
+            foreach (var item in expandableGroup)
             {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    foreach (var item in expandableGroup)
-                    {
-                        itemsSourceGroup.Add(item);
-                    }
-                });
-            });
+                itemsSourceGroup.Add(item);
+            }
 
             /* Invoke Expanded the Event */
             GroupExpanded?.Invoke(this, new ExpandableGroupEventArgs(expandableGroup));
         }
 
-        public virtual async Task Collapse(int position)
+        public virtual void Collapse(int position)
         {
             if (AllGroups.Count < position) return;
             if (!(AllGroups[position] is IExpandableGroup expandableGroup)) return;
@@ -232,17 +226,11 @@ namespace XFExpandableListView.Controls
 
             expandableGroup.IsExpanded = false;
 
-            /* Hard operations must not affect the UI Thread */
-            await Task.Run(() =>
+            /* It's important to do this in main thread */
+            foreach (var item in expandableGroup)
             {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    foreach (var item in expandableGroup)
-                    {
-                        itemsSourceGroup.Remove(item);
-                    }
-                });
-            });
+                itemsSourceGroup.Remove(item);
+            }
 
             /* Invoke Collapsed the Event */
             GroupCollapsed?.Invoke(this, new ExpandableGroupEventArgs(expandableGroup));
