@@ -278,12 +278,22 @@ namespace XFExpandableListView.Controls
 
         async Task UpdateExpandedItems()
         {
-            if (!(ItemsSource is IList groups)) return;
+            if (!(ItemsSource is IList existingGroups)) return;
 
             var updatedItemsSource = new ObservableCollection<IExpandableGroup>();
-            foreach (IExpandableGroup group in groups)
+            if (existingGroups.Count == AllGroups.Count)
             {
-                updatedItemsSource.Add(group.NewInstance());
+                foreach (IExpandableGroup group in existingGroups)
+                {
+                    updatedItemsSource.Add(group.NewInstance());
+                }
+            }
+            else
+            {
+                foreach (IExpandableGroup group in AllGroups)
+                {
+                    updatedItemsSource.Add(group.NewInstance());
+                }
             }
 
             /* Hard operations must not affect the UI Thread */
@@ -293,7 +303,7 @@ namespace XFExpandableListView.Controls
                 {
                     var group = (IExpandableGroup)AllGroups[i];
                     var itemsSourceGroup = (IExpandableGroup)updatedItemsSource[i];
-                    if (!group.IsExpanded) continue;
+                    if (!itemsSourceGroup.IsExpanded) continue;
 
                     foreach (var item in group)
                     {
