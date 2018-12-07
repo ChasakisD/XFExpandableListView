@@ -101,18 +101,6 @@ namespace XFExpandableListView.Controls
             if (!(newValue is IList items)) return;
             if (!(newValue is INotifyCollectionChanged newItemsSource)) return;
 
-            /* Copy the groups to the ItemsSource */
-            await Task.Run(() =>
-            {
-                var itemsSource = new ObservableCollection<IExpandableGroup>();
-                foreach (IExpandableGroup item in items)
-                {
-                    itemsSource.Add(item.NewInstance());
-                }
-
-                Device.BeginInvokeOnMainThread(() => { control.ItemsSource = itemsSource; });
-            });
-
             /* Subscribe to CollectionChanged Event to Update the ItemsSource with any AllGroups updates */
             newItemsSource.CollectionChanged += control.GroupsCollectionChanged;
 
@@ -278,7 +266,8 @@ namespace XFExpandableListView.Controls
 
         async Task UpdateExpandedItems()
         {
-            if (!(ItemsSource is IList existingGroups)) return;
+            //if (!(ItemsSource is IList existingGroups)) return;
+            IList existingGroups = (ItemsSource as IList) ?? new List<IExpandableGroup>();
 
             var updatedItemsSource = new ObservableCollection<IExpandableGroup>();
             if (existingGroups.Count == AllGroups.Count)
@@ -303,11 +292,13 @@ namespace XFExpandableListView.Controls
                 {
                     var group = (IExpandableGroup)AllGroups[i];
                     var itemsSourceGroup = (IExpandableGroup)updatedItemsSource[i];
-                    if (!itemsSourceGroup.IsExpanded) continue;
-
-                    foreach (var item in group)
+                    if (itemsSourceGroup.IsExpanded || group.IsExpanded)
                     {
-                        itemsSourceGroup.Add(item);
+                        itemsSourceGroup.IsExpanded = group.IsExpanded;
+                        foreach (var item in group)
+                        {
+                            itemsSourceGroup.Add(item);
+                        }
                     }
                 }
 
