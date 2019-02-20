@@ -1,4 +1,4 @@
-﻿using Xamarin.Forms;
+using Xamarin.Forms;
 using XFExpandableListView.Abstractions;
 
 namespace XFExpandableListView.Cells
@@ -68,6 +68,8 @@ namespace XFExpandableListView.Cells
             {
                 Command = new Command(async () =>
                 {
+                    if (ExpandableController == null) return;
+
                     #region [Toggle Group]
 
                     /* If is collapsing enabled, then collapse/expand the group */
