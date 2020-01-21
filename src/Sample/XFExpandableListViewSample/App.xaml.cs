@@ -1,4 +1,5 @@
 using Xamarin.Forms.Xaml;
+using XamarinBackgroundKit.Controls;
 using XFExpandableListViewSample.Views;
 
 [assembly: XamlCompilation (XamlCompilationOptions.Compile)]
@@ -9,6 +10,8 @@ namespace XFExpandableListViewSample
 		public App ()
 		{
 			InitializeComponent();
+
+			var x = typeof(MaterialShapeView);
 
 			MainPage = new ExpandableListViewPage();
 		}

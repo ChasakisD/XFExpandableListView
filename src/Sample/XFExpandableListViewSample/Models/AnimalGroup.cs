@@ -4,7 +4,7 @@ using XFExpandableListView.Models;
 
 namespace XFExpandableListViewSample.Models
 {
-    public class AnimalGroup : ExpandableGroup<Animal>
+    public class AnimalGroup : ExpandableGroup<Animal>, IExpandableGroup
     {
         public string Title { get; set; }
         public string ShortName { get; set; }

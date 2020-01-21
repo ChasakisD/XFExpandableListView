@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using XFExpandableListView.Abstractions;
+using XFExpandableListView.Utils;
 
 namespace XFExpandableListView.Models
 {
@@ -10,7 +11,7 @@ namespace XFExpandableListView.Models
     /// Base Class for the Group Model
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ExpandableGroup<T> : ObservableCollection<T>, IExpandableGroup
+    public class ExpandableGroup<T> : ObservableRangeCollection<T>, IExpandableGroup
     {
         private bool _isExpanded;
         public bool IsExpanded

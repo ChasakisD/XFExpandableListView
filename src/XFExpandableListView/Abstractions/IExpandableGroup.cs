@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Specialized;
+using XFExpandableListView.Utils;
 
 namespace XFExpandableListView.Abstractions
 {
@@ -8,7 +9,7 @@ namespace XFExpandableListView.Abstractions
     /// <summary>
     /// An Advanced IList Interface with a copy method and and identifier
     /// </summary>
-    public interface IExpandableGroup : IList, INotifyCollectionChanged
+    public interface IExpandableGroup : IList, INotifyCollectionChanged, IRangeCollectionProxy
     {
         /// <summary>
         /// The Unique Identifier of the List

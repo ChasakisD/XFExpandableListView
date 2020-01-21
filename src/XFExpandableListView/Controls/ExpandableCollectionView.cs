@@ -1,22 +1,15 @@
-using System;
+﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using XFExpandableListView.Abstractions;
 using XFExpandableListView.EventArgs;
+using XFExpandableListView.Utils;
 
 namespace XFExpandableListView.Controls
 {
-    /// <inheritdoc cref="ListView" />
-    /// <summary>
-    /// A Grouping ListView that allows you to expand/collase the header items.
-    /// Do NOT use ItemsSource, use AllGroups to bind your list
-    /// </summary>
-    public class ExpandableListView : ListView, IExpandableController
+    public class ExpandableCollectionView : CollectionView, IExpandableController
     {
         #region [Bindable Properties]
 
@@ -81,16 +74,16 @@ namespace XFExpandableListView.Controls
         /// <summary>
         /// Default Constructor
         /// </summary>
-        public ExpandableListView()
+        public ExpandableCollectionView()
         {
-            IsGroupingEnabled = true;
+            IsGrouped = true;
         }
 
         #region [Property Changed]
 
         static void AllGroupsChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            if (!(bindable is ExpandableListView control)) return;
+            if (!(bindable is ExpandableCollectionView control)) return;
 
             /* UnSubscribe to the previous events */
             if (oldValue is INotifyCollectionChanged oldItemsSource)
@@ -101,13 +94,9 @@ namespace XFExpandableListView.Controls
             if (!(newValue is IList items)) return;
             if (!(newValue is INotifyCollectionChanged newItemsSource)) return;
 
-            var itemsSource = new ObservableCollection<IExpandableGroup>();
-            foreach (IExpandableGroup item in items)
-            {
-                itemsSource.Add(item.NewInstance());
-            }
-
-            control.ItemsSource = itemsSource;
+            /* Copy the groups to the ItemsSource */
+            control.ItemsSource = new ObservableRangeCollection<IExpandableGroup>(
+                items.Cast<IExpandableGroup>().Select(x => x.NewInstance()));
 
             /* Subscribe to CollectionChanged Event to Update the ItemsSource with any AllGroups updates */
             newItemsSource.CollectionChanged += control.GroupsCollectionChanged;
@@ -118,7 +107,7 @@ namespace XFExpandableListView.Controls
 
         void GroupsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (!(ItemsSource is IList<IExpandableGroup> localItemsSource)) return;
+            if (!(ItemsSource is ObservableRangeCollection<IExpandableGroup> localItemsSource)) return;
 
             switch (e.Action)
             {
@@ -128,28 +117,30 @@ namespace XFExpandableListView.Controls
                     /* Remove the deleted items on the itemsSource */
                     if (e.OldItems != null)
                     {
-                        foreach (IExpandableGroup oldItem in e.OldItems)
-                        {
-                            var deletedItem = localItemsSource.FirstOrDefault(x => x.Id == oldItem.Id);
-                            if (deletedItem == null) return;
+                        var oldItems = e.OldItems
+                            .Cast<IExpandableGroup>()
+                            .Select(x => localItemsSource.FirstOrDefault(i => i.Id == x.Id));
 
-                            localItemsSource.Remove(deletedItem);
-                        }
+                        localItemsSource.RemoveRange(oldItems);
                     }
 
                     /* Add New Items */
                     if (e.NewItems != null)
                     {
+                        var newItems = e.NewItems
+                            .Cast<IExpandableGroup>()
+                            .Select(x => x.NewInstance())
+                            .ToList();
+
+                        localItemsSource.AddRange(newItems);
+
                         foreach (IExpandableGroup newItem in e.NewItems)
                         {
-                            var itemCopy = newItem.NewInstance();
-                            localItemsSource.Add(itemCopy);
+                            var itemCopy = newItems.FirstOrDefault(
+                                x => x.Id == newItem.Id);
 
                             if (!newItem.IsExpanded) continue;
-                            foreach (var item in newItem)
-                            {
-                                itemCopy.Add(item);
-                            }
+                            itemCopy.AddRange(newItem);
                         }
                     }
                     break;
@@ -202,10 +193,7 @@ namespace XFExpandableListView.Controls
             expandableGroup.IsExpanded = true;
 
             /* It's important to do this in main thread */
-            foreach (var item in expandableGroup)
-            {
-                itemsSourceGroup.Add(item);
-            }
+            itemsSourceGroup.AddRange(expandableGroup);
 
             /* Invoke Expanded the Event */
             GroupExpanded?.Invoke(this, new ExpandableGroupEventArgs(expandableGroup));
@@ -222,10 +210,7 @@ namespace XFExpandableListView.Controls
             expandableGroup.IsExpanded = false;
 
             /* It's important to do this in main thread */
-            foreach (var item in expandableGroup)
-            {
-                itemsSourceGroup.Remove(item);
-            }
+            itemsSourceGroup.RemoveRange(expandableGroup);
 
             /* Invoke Collapsed the Event */
             GroupCollapsed?.Invoke(this, new ExpandableGroupEventArgs(expandableGroup));
@@ -255,27 +240,23 @@ namespace XFExpandableListView.Controls
         {
             if (!(ItemsSource is IList groups)) return;
 
-            var updatedItemsSource = new ObservableCollection<IExpandableGroup>();
-            foreach (IExpandableGroup group in groups)
-            {
-                updatedItemsSource.Add(group.NewInstance());
-            }
+            var updatedItemsSource = new ObservableRangeCollection<IExpandableGroup>(
+                groups.Cast<IExpandableGroup>().Select(x => x.NewInstance()));
 
+            /* Hard operations must not affect the UI Thread */
             for (var i = 0; i < AllGroups.Count; i++)
             {
                 var group = (IExpandableGroup)AllGroups[i];
-                var itemsSourceGroup = updatedItemsSource[i];
+                var itemsSourceGroup = (IExpandableGroup)updatedItemsSource[i];
+
                 if (!group.IsExpanded) continue;
 
-                foreach (var item in group)
-                {
-                    itemsSourceGroup.Add(item);
-                }
+                itemsSourceGroup.AddRange(group);
             }
 
             ItemsSource = updatedItemsSource;
-
-            #endregion
         }
+
+        #endregion
     }
 }

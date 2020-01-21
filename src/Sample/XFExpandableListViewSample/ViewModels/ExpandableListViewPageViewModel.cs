@@ -1,5 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Xamarin.Forms;
+using XFExpandableListView.Abstractions;
 using XFExpandableListViewSample.Models;
 
 namespace XFExpandableListViewSample.ViewModels

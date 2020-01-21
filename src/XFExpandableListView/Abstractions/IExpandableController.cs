@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using XFExpandableListView.EventArgs;
 
@@ -72,21 +71,21 @@ namespace XFExpandableListView.Abstractions
         /// </summary>
         /// <param name="group">The group to be toggled</param>
         /// <returns></returns>
-        Task ToggleGroup(IExpandableGroup group);
+        void ToggleGroup(IExpandableGroup group);
 
         /// <summary>
         /// Search and returns the AllGroups' position with the specified id
         /// </summary>
         /// <param name="id">The identifier</param>
         /// <returns></returns>
-        Task<int> GetAllGroupPositionById(Guid id);
+        int GetAllGroupPositionById(Guid id);
 
         /// <summary>
         /// Search and returns the AllGroups' group with the specified id
         /// </summary>
         /// <param name="id">The identifier</param>
         /// <returns></returns>
-        Task<IExpandableGroup> GetAllGroupById(Guid id);
+        IExpandableGroup GetAllGroupById(Guid id);
 
         /// <summary>
         /// Method that handles the GroupClicked Event
