@@ -181,7 +181,16 @@ namespace XFExpandableListView.Controls
             if (expandableGroup.IsExpanded) Collapse(position);
             else Expand(position);
         }
-
+        
+        public void Expand(IExpandableGroup group)
+        {
+            int index = AllGroups.IndexOf(group);
+            if (index >= 0)
+            {
+                Expand(index);
+            }
+        }
+        
         public virtual void Expand(int position)
         {
             if (AllGroups.Count < position) return;
