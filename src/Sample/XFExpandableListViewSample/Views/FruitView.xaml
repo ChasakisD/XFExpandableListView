@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:controls="clr-namespace:XFExpandableListView.Controls;assembly=XFExpandableListView" 
+             xmlns:backgroundKit="http://xamarin.com/schemas/2014/forms/background"
+             mc:Ignorable="d"
+             x:Class="XFExpandableListViewSample.Views.FruitView">
+    <ContentView.Content>
+        <StackLayout Padding="10">
+            <Label TextColor="Black" FontSize="Large" Text="{Binding Name}"/>
+            <StackLayout Orientation="Horizontal">
+                <backgroundKit:MaterialShapeView VerticalOptions="Center" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0">
+                    <backgroundKit:MaterialShapeView.Shape>
+                        <backgroundKit:RoundRect CornerRadius="40" />
+                    </backgroundKit:MaterialShapeView.Shape>
+                    <backgroundKit:MaterialShapeView.Background>
+                        <backgroundKit:Background Elevation="2" Color="White" />
+                    </backgroundKit:MaterialShapeView.Background>
+                    <Image
+                                    WidthRequest="80"
+                                    HeightRequest="80"
+                                    VerticalOptions="Center"
+                                    Aspect="AspectFill"
+                                    Source="{Binding ImageUrl,Mode=TwoWay}" />
+                </backgroundKit:MaterialShapeView>
+                <Label LineBreakMode="WordWrap"
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                VerticalTextAlignment="Start"
+                                FontSize="16"
+                                Text="{Binding Description}"
+                                TextColor="#005569" />
+            </StackLayout>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

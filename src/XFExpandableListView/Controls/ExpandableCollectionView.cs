@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using XFExpandableListView.Abstractions;
 using XFExpandableListView.EventArgs;
@@ -236,7 +237,7 @@ namespace XFExpandableListView.Controls
 
         #region [Helpers]
 
-        void UpdateExpandedItems()
+        public void UpdateExpandedItems()
         {
             if (!(ItemsSource is IList groups)) return;
 
