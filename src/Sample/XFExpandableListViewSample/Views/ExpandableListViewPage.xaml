@@ -7,7 +7,7 @@
     xmlns:cells="clr-namespace:XFExpandableListView.Cells;assembly=XFExpandableListView"
     xmlns:controls="clr-namespace:XFExpandableListView.Controls;assembly=XFExpandableListView"
     xmlns:viewModels="clr-namespace:XFExpandableListViewSample.ViewModels;assembly=XFExpandableListViewSample"
-    x:Name="This">
+    x:Name="This" Title="Animal groups sample">
     <ContentPage.BindingContext>
         <viewModels:ExpandableListViewPageViewModel />
     </ContentPage.BindingContext>

@@ -13,7 +13,7 @@ namespace XFExpandableListViewSample
 
 			var x = typeof(MaterialShapeView);
 
-			MainPage = new ExpandableListViewPage();
+			MainPage = new MainTabbedPage();
 		}
 	}
 }
