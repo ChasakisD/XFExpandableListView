@@ -66,14 +66,14 @@ namespace XFExpandableListView.Cells
 
             View.GestureRecognizers.Add(new TapGestureRecognizer
             {
-                Command = new Command(async () =>
+                Command = new Command( () =>
                 {
                     #region [Toggle Group]
 
                     /* If is collapsing enabled, then collapse/expand the group */
                     if (ExpandableController.IsCollapsingEnabled)
                     {
-                        await ExpandableController.ToggleGroup(GroupController);
+                        ExpandableController.ToggleGroup(GroupController);
                     }
 
                     #endregion
