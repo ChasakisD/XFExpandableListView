@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
+using MvvmHelpers;
 using XFExpandableListView.Abstractions;
 using XFExpandableListView.Utils;
 
@@ -35,6 +39,26 @@ namespace XFExpandableListView.Models
         public virtual IExpandableGroup NewInstance()
         {
             return new ExpandableGroup<T>(Id);
+        }
+
+        public void AddRange(IEnumerable collection, NotifyCollectionChangedAction mode = NotifyCollectionChangedAction.Add)
+        {
+            base.AddRange((IEnumerable<T>)collection, mode);
+        }
+
+        public void RemoveRange(IEnumerable collection, NotifyCollectionChangedAction mode = NotifyCollectionChangedAction.Remove)
+        {
+            base.RemoveRange((IEnumerable<T>)collection, NotifyCollectionChangedAction.Reset);
+        }
+
+        public void Replace(object item)
+        {
+            base.Replace((T)item);
+        }
+
+        public void ReplaceRange(IEnumerable collection)
+        {
+            base.ReplaceRange((IEnumerable<T>)collection);
         }
     }
 }

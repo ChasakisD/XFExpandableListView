@@ -5,7 +5,6 @@ using Android.OS;
 using Android.Runtime;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using XamarinBackgroundKit.Android;
 using GlideX = Android.Glide.Forms;
 using XEPlatform = Xamarin.Essentials.Platform;
 
@@ -28,7 +27,6 @@ namespace XFExpandableListViewSample.Droid
             GlideX.Init(this);
             XEPlatform.Init(this, savedInstanceState);
             FormsMaterial.Init(this, savedInstanceState);
-            BackgroundKit.Init();
 
             LoadApplication(new App());
         }

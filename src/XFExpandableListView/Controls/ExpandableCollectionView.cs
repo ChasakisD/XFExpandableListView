@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Specialized;
 using System.Linq;
+using MvvmHelpers;
 using Xamarin.Forms;
 using XFExpandableListView.Abstractions;
 using XFExpandableListView.EventArgs;

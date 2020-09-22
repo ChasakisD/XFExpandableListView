@@ -46,7 +46,7 @@
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignKey>Apple Development: Juan Pablo Ibanez %287J33FN488H%29</CodesignKey>
+    <CodesignKey>Apple Development: Juan Pablo Ibanez (7J33FN488H)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <CodesignProvision>VS: WildCard Development</CodesignProvision>
   </PropertyGroup>
@@ -76,15 +76,12 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
     <PackageReference Include="Xamarin.Forms">
-      <Version>4.4.0.991477</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Forms.BackgroundKit">
-      <Version>2.0.0</Version>
+      <Version>4.8.0.1451</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms.Visual.Material">
-      <Version>4.4.0.991477</Version>
+      <Version>4.8.0.1451</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

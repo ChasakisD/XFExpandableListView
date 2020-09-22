@@ -3,7 +3,6 @@
     x:Class="XFExpandableListViewSample.Views.ExpandableListViewPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:backgroundKit="http://xamarin.com/schemas/2014/forms/background"
     xmlns:cells="clr-namespace:XFExpandableListView.Cells;assembly=XFExpandableListView"
     xmlns:controls="clr-namespace:XFExpandableListView.Controls;assembly=XFExpandableListView"
     xmlns:viewModels="clr-namespace:XFExpandableListViewSample.ViewModels;assembly=XFExpandableListViewSample"
@@ -25,21 +24,13 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <backgroundKit:MaterialShapeView Grid.Row="0" Grid.RowSpan="2" Grid.Column="0">
-                                <backgroundKit:MaterialShapeView.Shape>
-                                    <backgroundKit:RoundRect CornerRadius="40" />
-                                </backgroundKit:MaterialShapeView.Shape>
-                                <backgroundKit:MaterialShapeView.Background>
-                                    <backgroundKit:Background Elevation="2" Color="White" />
-                                </backgroundKit:MaterialShapeView.Background>
-                                <Image
+                            <Image
                                     WidthRequest="80"
                                     HeightRequest="80"
                                     VerticalOptions="Center"
                                     Aspect="AspectFill"
                                     Source="{Binding ImageUrl}" />
-                            </backgroundKit:MaterialShapeView>
-                            <Label
+                                <Label
                                 Grid.Row="0"
                                 Grid.Column="1"
                                 VerticalTextAlignment="Center"
