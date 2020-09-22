@@ -54,15 +54,15 @@ namespace XFExpandableListViewSample.ViewModels
                     new Animal(
                         "Brown Bear",
                         "The Brown Bear can be found in Alaska, western Canada,and parts of Washington, Montana and Wyoming",
-                        "http://bearwithus.org/wp-content/uploads/2012/09/Charlie-Russel-photo-b-150x150.jpg"),
+                        "https://bearwithus.org/wp-content/uploads/2012/09/Charlie-Russel-photo-b-150x150.jpg"),
                     new Animal(
                         "Polar Bear",
                         "Polar bears are among the largest bears in the world. Adult males may reach 800 kilograms (kg) or 1760 pounds (lbs)",
-                        "http://bearwithus.org/wp-content/uploads/2012/09/Polar-bears-b-Roy-deHaas-150x150.jpg"),
+                        "https://bearwithus.org/wp-content/uploads/2012/09/Polar-bears-b-Roy-deHaas-150x150.jpg"),
                     new Animal(
                         "Asiatic black bear",
                         "Asiatic black bears have long black fur with a distinct white patch on the chest that is often crescent-shaped",
-                        "http://bearwithus.org/wp-content/uploads/2012/09/Asiatic-Black-bear-b-Wild-150x150.jpg")
+                        "https://bearwithus.org/wp-content/uploads/2012/09/Asiatic-Black-bear-b-Wild-150x150.jpg")
                 }
             };
         }
